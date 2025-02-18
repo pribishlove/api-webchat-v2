@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Создать чат</h1>
+  <form method="post" action="/chats/create">
+    <input type="text" name="name" placeholder="Название чата" required>
+    <button type="submit">Создать</button>
+  </form>
+{% endblock %}

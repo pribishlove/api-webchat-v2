@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Ваши чаты</h1>
+  <a href="/chats/create">Создать чат</a>
+  <ul>
+    {% for chat in chats %}
+        <li>
+            {{ chat.name }}
+            <form action="/chats/{{ chat.id }}/delete" method="post">
+                <button type="submit">Удалить</button>
+            </form>
+        </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

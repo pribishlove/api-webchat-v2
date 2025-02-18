@@ -1,0 +1,9 @@
+# .dockerignore
+__pycache__/
+*.pyc
+.env
+venv/
+.dump/
+logs/
+Dockerfile
+docker-compose.yml

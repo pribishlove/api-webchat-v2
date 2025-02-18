@@ -1,0 +1,47 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: chat_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: chat_db
+    volumes:
+      - ./dump:/var/lib/postgresql/data
+
+  website:
+    build: ./website
+    container_name: website
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://user:password@db:5432/chat_db"
+    expose:
+      - "8000"
+
+  chat:
+    build: ./chat
+    container_name: chat
+    depends_on:
+      - db
+    expose:
+      - "8001"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/logs:/var/log/nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - website
+      - chat
+
+volumes:
+  dump:
