@@ -1,9 +1,33 @@
 # .dockerignore
 __pycache__/
-*.pyc
-.env
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+*.pyo
+*.pyd
+.Python
+env
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
 venv/
 .dump/
 logs/
 Dockerfile
+docker-compose.yml
+
+# Git
+.git
+.gitignore
+
+# Project specific
+README.md
+.dockerignore
 docker-compose.yml

@@ -1,18 +1,337 @@
+/* Общие стили */
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
 }
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Навигация */
 nav {
-    background: #333;
-    padding: 10px;
-}
-nav a {
+    background-color: #333;
+    padding: 1rem;
     color: white;
-    margin-right: 10px;
+    display: flex;
+    justify-content: flex-end;
 }
-#chat-box {
-    border: 1px solid #ccc;
-    height: 300px;
-    overflow-y: scroll;
-    padding: 10px;
+
+nav button {
+    background: linear-gradient(45deg, #dc3545, #c82333);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+nav button:hover {
+    background: linear-gradient(45deg, #c82333, #bd2130);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Заголовки */
+h1 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Кнопки и ссылки */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #004085);
+}
+
+.btn-secondary {
+    background: linear-gradient(45deg, #6c757d, #545b62);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(45deg, #545b62, #4e555b);
+}
+
+.btn-danger {
+    background: linear-gradient(45deg, #dc3545, #c82333);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(45deg, #c82333, #bd2130);
+}
+
+/* Формы */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+/* Страница входа */
+.login-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 280px;
+    padding: 2.5rem 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.login-container h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.login-form {
+    width: 100%;
+}
+
+.login-form .form-group {
+    margin-bottom: 15px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 12px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 2rem;
+}
+
+/* Обновленные стили для кнопок */
+.form-actions .btn {
+    width: 100%;
+    padding: 10px 0;  /* Одинаковые отступы */
+    font-size: 14px;  /* Одинаковый размер шрифта */
+    text-transform: none;  /* Убираем трансформацию текста */
+    letter-spacing: normal;  /* Убираем дополнительные отступы между буквами */
+    height: 36px;  /* Фиксированная высота для обеих кнопок */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.form-actions .btn-primary,
+.form-actions .btn-secondary {
+    font-size: 14px;  /* Одинаковый размер шрифта */
+    opacity: 1;  /* Убираем прозрачность */
+}
+
+.form-actions .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Страница чатов */
+.chats-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.chats-header {
+    margin-bottom: 2rem;
+}
+
+.chats-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 500px;
+    margin: 0 auto 2rem;
+}
+
+.search-form {
+    display: flex;
+    gap: 1rem;
+    max-width: 500px;
+    margin: 0 auto 2rem;
+}
+
+.search-form input {
+    flex: 1;
+    text-align: center;
+}
+
+.search-form button {
+    min-width: 100px;
+}
+
+.chat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.chat-item {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.chat-item h3 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.chat-item-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.chat-item-actions .btn {
+    min-width: 120px;
+}
+
+/* Страница чата */
+.chat-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.chat-messages {
+    background: white;
+    border-radius: 8px;
+    margin: 2rem auto;
+    padding: 1rem;
+    height: 400px;
+    overflow-y: auto;
+    max-width: 600px;
+}
+
+.chat-input {
+    display: flex;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.chat-input input {
+    flex: 1;
+    text-align: center;
+}
+
+/* Кнопка возврата */
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    color: #6c757d;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 25px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.back-link:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Сообщения в чате */
+#messages {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    height: 400px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+#messageInput {
+    width: calc(100% - 120px);
+    margin-right: 10px;
 }

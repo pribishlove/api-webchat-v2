@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Чат: {{ room_name }}{% endblock %}
+
+{% block content %}
+    <div style="margin-bottom: 20px;">
+        <a href="/chats" class="back-link">Вернуться к списку чатов</a>
+    </div>
+
+    <h1>Чат: {{ room_name }}</h1>
+    <p>Вы вошли как {{ user.email }}</p>
+
+    <div id="messages"></div>
+
+    <div style="display: flex; gap: 10px; margin-top: 1rem;">
+        <input type="text" id="messageInput" placeholder="Введите сообщение...">
+        <button onclick="sendMessage()" class="btn btn-primary">Отправить</button>
+    </div>
+
+    <script>
+        const roomName = "{{ room_name }}";
+        const userEmail = "{{ user.email }}";
+        let ws = null;
+
+        // Функция отправки сообщения
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message && ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'message',
+                    user: userEmail,
+                    message: message
+                }));
+                input.value = '';
+            }
+        }
+
+        // Функция получения токена
+        async function getChatToken() {
+            try {
+                const response = await fetch(`/get_chat_token/${encodeURIComponent(roomName)}`, {
+                    method: 'GET',
+                    credentials: 'same-origin',  // Важно! Передаем куки с токеном
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                return data.token;
+            } catch (error) {
+                console.error('Error getting chat token:', error);
+                window.location.href = '/chats?error=Ошибка получения токена';
+                return null;
+            }
+        }
+
+        // Функция отображения сообщения
+        function displayMessage(data) {
+            const messages = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            
+            if (data.type === 'system') {
+                messageDiv.className += ' system-message';
+                messageDiv.textContent = data.message;
+            } else {
+                messageDiv.innerHTML = `<strong>${data.user}:</strong> ${data.message}`;
+            }
+            
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        // Инициализация WebSocket
+        async function initWebSocket() {
+            try {
+                const chatToken = await getChatToken();
+                if (!chatToken) {
+                    throw new Error('No token received');
+                }
+
+                const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                const wsUrl = `${wsProtocol}//${window.location.host}/ws/${encodeURIComponent(roomName)}`;
+                
+                ws = new WebSocket(wsUrl);
+                
+                ws.onopen = function() {
+                    ws.send(JSON.stringify({
+                        type: 'authorization',
+                        token: chatToken
+                    }));
+                    console.log('Connected to chat');
+                };
+                
+                ws.onmessage = function(event) {
+                    const data = JSON.parse(event.data);
+                    displayMessage(data);
+                };
+                
+                ws.onclose = function() {
+                    console.log('Disconnected from chat');
+                    displayMessage({
+                        type: 'system',
+                        message: 'Соединение потеряно. Переподключение...'
+                    });
+                    setTimeout(initWebSocket, 1000);
+                };
+                
+                ws.onerror = function(error) {
+                    console.error('WebSocket error:', error);
+                };
+            } catch (error) {
+                console.error('Failed to initialize WebSocket:', error);
+                window.location.href = '/chats?error=Ошибка подключения к чату';
+            }
+        }
+
+        // Обработка Enter для отправки
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Запуск подключения при загрузке страницы
+        initWebSocket();
+    </script>
+{% endblock %}
+

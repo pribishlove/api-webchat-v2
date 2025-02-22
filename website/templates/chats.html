@@ -1,15 +1,57 @@
 {% extends "base.html" %}
+
+{% block title %}Список чатов{% endblock %}
+
 {% block content %}
-  <h1>Ваши чаты</h1>
-  <a href="/chats/create">Создать чат</a>
-  <ul>
-    {% for chat in chats %}
-        <li>
-            {{ chat.name }}
-            <form action="/chats/{{ chat.id }}/delete" method="post">
-                <button type="submit">Удалить</button>
-            </form>
-        </li>
-    {% endfor %}
-  </ul>
+<div class="chats-container">
+    <div class="chats-header">
+        <h1>Ваши чаты</h1>
+    </div>
+    
+    <div class="chats-actions">
+        <a href="/chats/create" class="btn btn-primary">Создать новый чат</a>
+        
+        <form action="/chats/search" method="get" class="search-form">
+            <input type="text" name="query" placeholder="Поиск чатов..." minlength="1" required>
+            <button type="submit" class="btn btn-secondary">Найти</button>
+        </form>
+    </div>
+
+    <div class="chat-list">
+        {% for chat in chats %}
+        <div class="chat-item">
+            <h3>{{ chat.name }}</h3>
+            <div class="chat-item-actions">
+                <a href="/chat/{{ chat.name }}" class="btn btn-primary">Войти в чат</a>
+                {% if chat.owner_id == user.user_id %}
+                <form action="/chats/{{ chat.id }}/delete" method="post">
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+// Проверяем наличие формы поиска перед добавлением обработчика
+const searchForm = document.querySelector('form[action="/chats/search"]');
+if (searchForm) {
+    searchForm.addEventListener('submit', function(e) {
+        const query = this.querySelector('input[name="query"]').value;
+        if (query.length < 6) {
+            e.preventDefault();
+            alert('Поисковый запрос должен содержать не менее 6 символов');
+        }
+    });
+}
+
+// Показываем сообщение об ошибке, если оно есть в URL
+const urlParams = new URLSearchParams(window.location.search);
+const error = urlParams.get('error');
+if (error) {
+    alert(decodeURIComponent(error));
+}
+</script>
 {% endblock %}

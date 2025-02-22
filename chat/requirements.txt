@@ -4,3 +4,6 @@ PyJWT
 httpx
 python-multipart
 requests
+uvicorn[standard]
+websockets
+aiohttp

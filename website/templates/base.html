@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Website{% endblock %}</title>
+    <title>{% block title %}Чат{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
 </head>
 <body>
     <nav>
         {% if user %}
-            <a href="/logout">Выйти</a>
+            <form action="/logout" method="post">
+                <button type="submit">Выйти</button>
+            </form>
         {% endif %}
     </nav>
 

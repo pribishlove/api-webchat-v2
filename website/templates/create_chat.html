@@ -1,8 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
+  <div style="margin-bottom: 20px;">
+    <a href="/chats" class="btn btn-secondary">Вернуться к списку чатов</a>
+  </div>
+
   <h1>Создать чат</h1>
-  <form method="post" action="/chats/create">
-    <input type="text" name="name" placeholder="Название чата" required>
-    <button type="submit">Создать</button>
+  <form id="createChatForm" action="/chats/create" method="post" onsubmit="return validateForm()">
+    <div class="form-group">
+        <label for="name">Название чата:</label>
+        <input type="text" id="name" name="name" class="form-control" required minlength="6">
+        <small class="form-text text-muted">Минимальная длина названия - 6 символов</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать чат</button>
   </form>
+
+  <script>
+  function validateForm() {
+      const chatName = document.getElementById('name').value;
+      if (chatName.length < 6) {
+          alert('Название чата должно содержать не менее 6 символов');
+          return false;
+      }
+      return true;
+  }
+  </script>
 {% endblock %}

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Вход{% endblock %}
+{% block title %}Регистрация{% endblock %}
 
 {% block content %}
 <div class="login-container">
-    <h1>Добро пожаловать</h1>
+    <h1>Регистрация</h1>
     
     <div class="login-form">
-        <form action="/login" method="post">
+        <form action="/register" method="post">
             <div class="form-group">
                 <input type="email" name="email" placeholder="Email" required>
             </div>
@@ -15,8 +15,8 @@
                 <input type="password" name="password" placeholder="Пароль" required>
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Войти</button>
-                <a href="/register" class="btn btn-secondary">Зарегистрироваться</a>
+                <a href="/" class="btn btn-secondary">Назад</a>
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
             </div>
         </form>
     </div>

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Результаты поиска для "{{ query }}"</h1>
+  
+  <a href="/chats" class="btn btn-secondary">Назад к списку чатов</a>
+
+  <div class="chat-list">
+    {% for chat in chats %}
+    <div class="chat-item">
+        <h3>{{ chat.name }}</h3>
+        <a href="/chat/{{ chat.name }}" class="btn btn-primary">Войти в чат</a>
+        {% if chat.owner_id == user.user_id %}
+        <form action="/chats/{{ chat.id }}/delete" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+        {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
